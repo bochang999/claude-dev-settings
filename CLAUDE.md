@@ -1563,3 +1563,106 @@ cat manuscript/*.md > final/complete_novel.md
 ```
 
 この自動システムにより、執筆の任意の時点で全成果物をNotionで確認・共有できます。
+
+---
+
+## 14. クロスプラットフォーム同期システム
+
+### GitHub経由でのノウハウ共有
+
+このCLAUDE.mdファイルは **Termux環境で蓄積されたノウハウ** を PC側のClaude Codeと共有するためのものです。
+
+#### リポジトリ情報
+- **リポジトリ**: https://github.com/bochang999/claude-dev-settings
+- **目的**: Termux/PC間でのClaude Code設定・ノウハウの同期
+- **更新**: Termux側での開発ノウハウ蓄積時に随時更新
+
+### PC側での設定手順
+
+#### 1. リポジトリのクローン
+```bash
+# Claude Codeの設定ディレクトリに移動（OS別）
+# Windows: C:\Users\[username]\.claude\
+# macOS/Linux: ~/.claude/
+
+# 設定リポジトリをクローン
+git clone https://github.com/bochang999/claude-dev-settings.git
+```
+
+#### 2. CLAUDE.mdの配置
+```bash
+# Option A: シンボリックリンク（推奨）
+ln -s claude-dev-settings/CLAUDE.md ./CLAUDE.md
+
+# Option B: ファイルコピー
+cp claude-dev-settings/CLAUDE.md ./CLAUDE.md
+```
+
+#### 3. MCPサーバー設定の適用
+```bash
+# Termuxで動作している設定をPC環境に適応
+# claude_desktop_config.json または ~/.cursor/mcp.json に追加
+
+# Context7
+claude mcp add context7 npx @upstash/context7-mcp@latest
+
+# Sequential Thinking  
+claude mcp add sequential-thinking npx @modelcontextprotocol/server-sequential-thinking
+
+# Notion（環境変数 NOTION_TOKEN の設定が必要）
+claude mcp add notion npx @notionhq/notion-mcp-server
+```
+
+### ノウハウ更新の運用
+
+#### Termux側での更新フロー
+```bash
+# ノウハウ追加時
+cd /data/data/com.termux/files/home/claude-dev-settings
+# CLAUDE.mdを編集
+git add CLAUDE.md
+git commit -m "Add: [追加したノウハウの概要]"
+git push
+```
+
+#### PC側での同期フロー
+```bash
+# 定期的な同期（週1回程度）
+cd claude-dev-settings
+git pull
+
+# シンボリックリンクの場合は自動で最新版に更新
+# ファイルコピーの場合は再コピーが必要
+```
+
+### 環境別の使い分け指針
+
+#### Termux環境（メイン開発）
+- **BeeWare/Android開発**: アプリ開発の主戦場
+- **実験・プロトタイプ**: 新しいアイデアの試作
+- **ノウハウ蓄積**: 実際の開発で得た知見をCLAUDE.mdに記録
+
+#### PC環境（補完開発）
+- **大規模コーディング**: キーボード作業が効率的な場面
+- **ドキュメント整理**: 長文の文書作成・編集
+- **プロジェクト設計**: 複雑な設計の整理・検討
+- **Termuxノウハウの活用**: 蓄積されたベストプラクティスの参照
+
+### 同期の利点
+
+#### 🔄 ノウハウの集約化
+- Termux環境での実践的な知見をPC環境でも活用
+- 開発効率向上のためのMCPサーバー設定の共有
+- トラブルシューティング手順の一元管理
+
+#### 🚀 開発効率の向上
+- 環境を問わず同じレベルの開発支援が受けられる
+- プロジェクト設計をPC、実装をTermuxといった柔軟な使い分け
+- 両環境での学習効果の相乗作用
+
+#### 🛡️ ノウハウの保全
+- 単一デバイス依存からの脱却
+- 重要な開発知識のバックアップ確保
+- チーム開発時の知識共有基盤
+
+この同期システムにより、**Termux環境で培った実践的なノウハウを、PC環境でも最大限活用できる開発体制** が確立されます。
